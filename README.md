@@ -1,6 +1,7 @@
 Backend SWAPITO
 
-link na install python3: 
+install python3: https://www.python.org/downloads/
+install pip: https://pypi.org/project/pip/
 
 pip3 install -r requirements.txt
 
