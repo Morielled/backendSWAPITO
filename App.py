@@ -9,7 +9,7 @@ from firebase_admin import credentials, firestore
 app = Flask(__name__)
 
 #for cross origin resource sharing
-#cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 
