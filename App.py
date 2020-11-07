@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, abort
 from flask_restful import Resource, Api
 from flask_cors import CORS
 
@@ -60,51 +60,62 @@ ads = []
 
 class Ads(Resource):
 
-    def get(self, id):
+    def get(self):  
 
-        for ad in ads:
-            if ad['id'] == id:
-                return ad
-        
-        return {'id':None}, 404
-
+        id = request.args.get('id')
+        doc_ref = db.collection(u'inzeraty').document(id)
+        doc = doc_ref.get()
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            abort(404)
 
     def post(self):
-
+        
         doc_ref = db.collection('inzeraty').document()
-
+        response = request.get_json()
         ad = {
                 'id': doc_ref.id,
-                'author': 'Misa Drapelova',
-                'title': 'Stůl',
-                'content': 'Stůl je málo používaný',
+                'type':response.get('type',''),
+                'category':response.get('category',''),
+                'name':response.get('name',''),
+                'description':response.get('description',''),  
+                'street':response.get('street',''),
+                'city':response.get('city',''),
+                'zipCode':response.get('zipCode',''),
+                'exchange':response.get('exchange',''),
                 'date_posted': 'October 20, 2020'
               }
-
         doc_ref.set(ad)
-
         return ad
 
+'''
+    def delete(self):
+        
+        ad_del = db.collection(u'inzeraty').document(id).delete()
 
-    def delete(self, id):
-
-        for ind,ad in enumerate(ads):
-            if ad['id'] == id:
-                deleted_ad = ads.pop(ind)
+        for id,ad_del in enumerate(ads):
+            if ad_del['id'] == id:
+                deleted_ad = ads.pop(id)
                 return {'note': 'delete success'}
 
+        id = request.args.get('id')
+        ad_del = db.collection(u'inzeraty').document(id).delete()
+        ad = ad_del.get()
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            abort(404)
+'''
 
 class AllAds(Resource):
     
     def get(self):  
 
         docs = db.collection(u'inzeraty').stream()
-
         ads = []
-
         for doc in docs:
           ads.append(doc.to_dict())
-
         return ads
 
 
