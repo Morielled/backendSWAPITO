@@ -82,7 +82,7 @@ class AllAds(Resource):
     
     def get(self):  
 
-        docs = db.collection(u'inzeraty').stream()
+        docs = db.collection(u'advertisements').stream()
         ads = []
         for doc in docs:
           ads.append(doc.to_dict())
