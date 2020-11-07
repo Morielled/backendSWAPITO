@@ -12,7 +12,7 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
-'''
+
 ###### DATABASE ######
 ######################
 
@@ -24,7 +24,7 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client ()
 
-
+'''
 doc_ref = db.collection('inzeraty').document('inzerat1')
 
 doc_ref.set(
@@ -69,11 +69,19 @@ class Ads(Resource):
         return {'id':None}, 404
 
 
-    def post(self, id):
+    def post(self):
 
-        ad = {'id': id}
+        doc_ref = db.collection('inzeraty').document()
 
-        ads.append(ad)
+        ad = {
+                'id': doc_ref.id,
+                'author': 'Misa Drapelova',
+                'title': 'Stůl',
+                'content': 'Stůl je málo používaný',
+                'date_posted': 'October 20, 2020'
+              }
+
+        doc_ref.set(ad)
 
         return ad
 
@@ -89,10 +97,18 @@ class Ads(Resource):
 class AllAds(Resource):
     
     def get(self):  
-        return {'ads':ads}
+
+        docs = db.collection(u'inzeraty').stream()
+
+        ads = []
+
+        for doc in docs:
+          ads.append(doc.to_dict())
+
+        return ads
 
 
-api.add_resource(Ads,'/ad/<string:id>')
+api.add_resource(Ads,'/ad')
 api.add_resource(AllAds, '/ads')
 
 
