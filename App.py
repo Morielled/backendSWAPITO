@@ -9,7 +9,7 @@ from firebase_admin import credentials, firestore
 app = Flask(__name__)
 
 #for cross origin resource sharing
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+#cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 
@@ -24,34 +24,6 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client ()
 
-'''
-doc_ref = db.collection('inzeraty').document('inzerat1')
-
-doc_ref.set(
-            {
-                'id': '1'
-                'author': 'Misa Drapelova',
-                'id': 'Stůl',
-                'content': 'Stůl je málo používaný',
-                'date_posted': 'October 20, 2020'
-            }
-          )
-
-
-doc_ref = db.collection('inzeraty').document('inzerat2')
-
-doc_ref.set(
-            {
-                'id': '2'
-                'author': 'Tereza Modrá',
-                'id': 'Židle',
-                'content': 'Židle je krásná',
-                'date_posted': 'October 22, 2020'
-            }
-          )
-'''
-
-
 ###### API ######
 
 api = Api(app)
@@ -63,7 +35,7 @@ class Ads(Resource):
     def get(self):  
 
         id = request.args.get('id')
-        doc_ref = db.collection(u'inzeraty').document(id)
+        doc_ref = db.collection(u'advertisements').document(id)
         doc = doc_ref.get()
         if doc.exists:
             return doc.to_dict()
@@ -72,7 +44,7 @@ class Ads(Resource):
 
     def post(self):
         
-        doc_ref = db.collection('inzeraty').document()
+        doc_ref = db.collection('advertisements').document()
         response = request.get_json()
         ad = {
                 'id': doc_ref.id,
@@ -92,8 +64,6 @@ class Ads(Resource):
 '''
     def delete(self):
         
-        ad_del = db.collection(u'inzeraty').document(id).delete()
-
         for id,ad_del in enumerate(ads):
             if ad_del['id'] == id:
                 deleted_ad = ads.pop(id)
@@ -119,8 +89,26 @@ class AllAds(Resource):
         return ads
 
 
+class User(Resource):
+
+    def post(self):
+        
+        doc_ref = db.collection('users').document()
+        response = request.get_json()
+        user = {
+                'userID':response.get('userID',''),
+                'userName':response.get('userName',''),
+                'userEmail':response.get('userEmail',''),
+                'userPhoto':response.get('userPhoto',''),
+              }
+        doc_ref.set(user)
+        return user
+
+
+
 api.add_resource(Ads,'/ad')
-api.add_resource(AllAds, '/ads')
+api.add_resource(AllAds,'/ads')
+api.add_resource(User,'/user')
 
 
 
