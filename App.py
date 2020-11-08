@@ -88,7 +88,7 @@ class AllAds(Resource):
         return ads
 
 
-class User(Resource):
+class Users(Resource):
 
     def post(self):
         
@@ -103,10 +103,41 @@ class User(Resource):
         return user
 
 
+class User(Resource):
+
+    def put(self,userID):
+        
+        response = request.get_json()
+        doc_ref = db.collection('users').document(userID)
+        doc = doc_ref.get()
+
+        if not doc.exists:
+            abort(404) 
+ 
+        user = {
+                'location':response.get('location',''),
+                'searches':response.get('searches',''),
+                'offers':response.get('offers','')
+            }
+        doc_ref.update(user)
+        return doc_ref.get().to_dict()
+
+    def get(self,userID):  
+
+        doc_ref = db.collection(u'users').document(userID)
+        doc = doc_ref.get()
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            abort(404)
+       
+
+
 
 api.add_resource(Ads,'/ad')
 api.add_resource(AllAds,'/ads')
-api.add_resource(User,'/user')
+api.add_resource(Users,'/user')
+api.add_resource(User,'/user/<string:userID>')
 
 
 
