@@ -47,7 +47,6 @@ class Ads(Resource):
         doc_ref = db.collection('advertisements').document()
         response = request.get_json()
         ad = {
-                'id': doc_ref.id,
                 'type':response.get('type',''),
                 'category':response.get('category',''),
                 'name':response.get('name',''),
@@ -93,10 +92,9 @@ class User(Resource):
 
     def post(self):
         
-        doc_ref = db.collection('users').document()
         response = request.get_json()
+        doc_ref = db.collection('users').document(response.get('userID'))
         user = {
-                'userID':response.get('userID',''),
                 'userName':response.get('userName',''),
                 'userEmail':response.get('userEmail',''),
                 'userPhoto':response.get('userPhoto',''),
