@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, os, json
 from flask_restful import Resource, Api
 from flask_cors import CORS
 
@@ -17,7 +17,14 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 ######################
 
 #firebase credentials
-cred = credentials.Certificate ('firebase-key.json')
+
+json_data = os.environ.get('FIREBASE_KEY')
+
+if json_data is None:
+    cred = credentials.Certificate ('firebase-key.json')
+else:
+    var = json.loads(json_data)
+    cred = credentials.Certificate (var)
 
 #initialize app
 firebase_admin.initialize_app(cred)
