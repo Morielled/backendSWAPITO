@@ -2,6 +2,7 @@ from flask import Flask, request, abort, json
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import os
+from datetime import datetime
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -54,6 +55,7 @@ class Ads(Resource):
         
         doc_ref = db.collection('advertisements').document()
         response = request.get_json()
+        now = datetime.now()
         ad = {
                 'type':response.get('type',''),
                 'category':response.get('category',[]),
@@ -61,7 +63,7 @@ class Ads(Resource):
                 'description':response.get('description',''),
                 'exchange':response.get('exchange',''),
                 'picture':response.get('picture',''),
-                'date_posted': 'October 20, 2020'
+                'date_posted':str(now)
               }
         doc_ref.set(ad)
         return ad
