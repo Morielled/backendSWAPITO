@@ -48,6 +48,7 @@ class Ads(Resource):
         response = request.get_json()
         ad = {
                 'type':response.get('type',''),
+                'picture':response.get('picture',''),
                 'category':response.get('category',''),
                 'name':response.get('name',''),
                 'description':response.get('description',''),  
