@@ -1,6 +1,7 @@
-from flask import Flask, request, abort, os, json
+from flask import Flask, request, abort, json
 from flask_restful import Resource, Api
 from flask_cors import CORS
+import os
 
 import firebase_admin
 from firebase_admin import credentials, firestore
