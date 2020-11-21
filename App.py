@@ -60,9 +60,7 @@ class Ads(Resource):
                 'name':response.get('name',''),
                 'description':response.get('description',''),
                 'exchange':response.get('exchange',''),
-                'imageData':response.get('imageData',''),
                 'picture':response.get('picture',''),
-                'uploadValue':response.get('uploadValue',''),
                 'date_posted': 'October 20, 2020'
               }
         doc_ref.set(ad)
