@@ -140,6 +140,9 @@ api.add_resource(Users,'/user')
 api.add_resource(User,'/user/<string:userID>')
 
 
+@app.route('/hello')
+def hello():
+    return 'Hello, World'
 
 
 if __name__ == '__main__':
