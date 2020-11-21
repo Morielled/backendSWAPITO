@@ -48,14 +48,13 @@ class Ads(Resource):
         response = request.get_json()
         ad = {
                 'type':response.get('type',''),
-                'picture':response.get('picture',''),
-                'category':response.get('category',''),
+                'category':response.get('category',[]),
                 'name':response.get('name',''),
-                'description':response.get('description',''),  
-                'street':response.get('street',''),
-                'city':response.get('city',''),
-                'zipCode':response.get('zipCode',''),
+                'description':response.get('description',''),
                 'exchange':response.get('exchange',''),
+                'imageData':response.get('imageData',''),
+                'picture':response.get('picture',''),
+                'uploadValue':response.get('uploadValue',''),
                 'date_posted': 'October 20, 2020'
               }
         doc_ref.set(ad)
