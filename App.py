@@ -148,7 +148,7 @@ api.add_resource(Users,'/user')
 api.add_resource(User,'/user/<string:userID>')
 
 
-@app.route('/hello')
+@app.route('/')
 def hello():
     return 'Hello, World'
 
