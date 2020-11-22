@@ -58,6 +58,7 @@ class Ads(Resource):
         now = datetime.now()
         ad = {
                 'type':response.get('type',''),
+                'userID':userID('userID',''),
                 'category':response.get('category',[]),
                 'name':response.get('name',''),
                 'description':response.get('description',''),
