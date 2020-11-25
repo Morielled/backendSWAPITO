@@ -94,7 +94,7 @@ class AllAds(Resource):
 
         #docs = db.collection(u'advertisements').order_by(u'date_posted').stream()
         results = db.collection(u'advertisements')
-        query = results.order_by(u'advertisements', direction=firestore.Query.DESCENDING)
+        query = results.order_by(u'advertisements', direction=firestore.Query.ASCENDING)
         docs = query.stream()
         
         ads = []
