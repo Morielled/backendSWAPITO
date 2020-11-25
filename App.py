@@ -107,6 +107,9 @@ class Users(Resource):
                 'userName':response.get('userName',''),
                 'userEmail':response.get('userEmail',''),
                 'userPhoto':response.get('userPhoto',''),
+                'location':response.get('location',''),
+                'searches':response.get('searches',''),
+                'offers':response.get('offers','')
               }
         doc_ref.set(user)
         return user
