@@ -92,10 +92,10 @@ class AllAds(Resource):
     
     def get(self):  
 
-        docs = db.collection(u'advertisements').order_by(u'date_posted').stream()
-        #results = db.collection(u'advertisements')
-        #query = results.order_by(u'advertisements', direction=firestore.Query.DESCENDING)
-        #docs = query.stream()
+        #docs = db.collection(u'advertisements').order_by(u'date_posted').stream()
+        results = db.collection(u'advertisements')
+        query = results.order_by(u'date_posted', direction=firestore.Query.DESCENDING)
+        docs = query.stream()
         
         ads = []
         for doc in docs:
