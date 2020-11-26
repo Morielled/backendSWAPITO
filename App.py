@@ -1,6 +1,6 @@
 from flask import Flask, request, abort, json
 from flask_restful import Resource, Api
-from flask_cors import CORS
+#from flask_cors import CORS
 import os
 from datetime import datetime
 
@@ -11,7 +11,7 @@ from firebase_admin import credentials, firestore
 app = Flask(__name__)
 
 #for cross origin resource sharing
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+#cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 
@@ -92,7 +92,6 @@ class AllAds(Resource):
     
     def get(self):  
 
-        #docs = db.collection(u'advertisements').order_by(u'date_posted').stream()
         results = db.collection(u'advertisements')
         query = results.order_by(u'date_posted', direction=firestore.Query.DESCENDING)
         docs = query.stream()
